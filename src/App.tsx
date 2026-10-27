@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import type { Dispatch, SetStateAction, ComponentType } from "react";
 import {
   Routes,
   Route,
@@ -13,7 +14,33 @@ import VisaResult from "./pages/VisaResult";
 import AdminPanel from "./pages/AdminPanel";
 import AdminLogin from "./pages/AdminLogin";
 
-const initialRecords = [
+type VisaRecord = {
+  id: number;
+  fullName: string;
+  passport: string;
+  dob: string;
+  nationality: string;
+  reference: string;
+  visaNumber: string;
+  status: string;
+  visaType: string;
+  entries: string;
+  duration: string;
+  port: string;
+  submitted: string;
+  decision: string;
+  issue: string;
+  expiry: string;
+  pdfName: string;
+  pdfUrl: string;
+};
+
+type ProtectedAdminProps = {
+  records: VisaRecord[];
+  setRecords: Dispatch<SetStateAction<VisaRecord[]>>;
+};
+
+const initialRecords: VisaRecord[] = [
   {
     id: 1,
     fullName: "DEMO APPLICANT",
@@ -36,7 +63,10 @@ const initialRecords = [
   },
 ];
 
-function ProtectedAdmin({ records, setRecords }) {
+function ProtectedAdmin({
+  records,
+  setRecords,
+}: ProtectedAdminProps) {
   const location = useLocation();
 
   const isLoggedIn =
@@ -52,8 +82,12 @@ function ProtectedAdmin({ records, setRecords }) {
     );
   }
 
+  // AdminPanel.jsx currently receives props from this TSX file.
+  const TypedAdminPanel =
+    AdminPanel as ComponentType<ProtectedAdminProps>;
+
   return (
-    <AdminPanel
+    <TypedAdminPanel
       records={records}
       setRecords={setRecords}
     />
@@ -61,32 +95,28 @@ function ProtectedAdmin({ records, setRecords }) {
 }
 
 export default function App() {
-  const [records, setRecords] = useState(initialRecords);
+  const [records, setRecords] =
+    useState<VisaRecord[]>(initialRecords);
 
   return (
     <Routes>
-      {/* Home page প্রথমে দেখাবে */}
       <Route path="/" element={<Home />} />
 
-      {/* Visa check page */}
       <Route
         path="/check-visa"
         element={<CheckVisa records={records} />}
       />
 
-      {/* Visa result */}
       <Route
         path="/result/:id"
         element={<VisaResult records={records} />}
       />
 
-      {/* Admin login */}
       <Route
         path="/admin-login"
         element={<AdminLogin />}
       />
 
-      {/* Protected admin */}
       <Route
         path="/admin"
         element={
@@ -97,7 +127,6 @@ export default function App() {
         }
       />
 
-      {/* Unknown URL */}
       <Route
         path="*"
         element={<Navigate to="/" replace />}
