@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Plus,
   Pencil,
@@ -18,6 +18,7 @@ import {
   AlertCircle,
   LoaderCircle,
   Save,
+  LogOut,
 } from "lucide-react";
 
 import Header from "../components/Header";
@@ -160,6 +161,7 @@ function StatusBadge({ status }) {
 }
 
 export default function AdminPanel() {
+  const navigate = useNavigate();
   const [records, setRecords] = useState([]);
   const [editing, setEditing] = useState(null);
   const [pdfFile, setPdfFile] = useState(null);
@@ -169,6 +171,14 @@ export default function AdminPanel() {
   const [messageType, setMessageType] = useState("success");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  function handleLogout() {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (!confirmed) return;
+
+    sessionStorage.removeItem("adminLoggedIn");
+    navigate("/admin-login", { replace: true });
+  }
 
   const showMessage = useCallback((text, type = "success") => {
     setMessage(text);
@@ -422,15 +432,21 @@ export default function AdminPanel() {
 
               <p>Manage records, edit information and upload PDF files.</p>
 
-              <div className="admin-api-indicator">
-                <span className="admin-live-dot" />
-                <span>API endpoint</span>
-                <code>gcy.fragavenuebd.com</code>
-              </div>
+            
             </div>
 
-            <div className="admin-hero-icon">
-              <Database size={40} />
+            <div className="admin-hero-actions">
+              <div className="admin-hero-icon">
+                <Database size={40} />
+              </div>
+              <button
+                type="button"
+                className="admin-button admin-logout-button"
+                onClick={handleLogout}
+              >
+                <LogOut size={17} />
+                Logout
+              </button>
             </div>
           </section>
 
