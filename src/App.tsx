@@ -108,7 +108,7 @@ export default function App() {
     const path = location.pathname;
 
     if (path === "/") {
-      document.title = "Home";
+      document.title = "gov.cy — Government Portal of the Republic of Cyprus";
     } else if (path === "/check-visa-status") {
       document.title = "Check Visa Status — gov.cy";
     } else if (path === "/admin-login") {
