@@ -10,7 +10,13 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "https://gcy.fragavenuebd.com";
 
-const CAPTCHA_CODES = ["D3M0", "T3ST", "P4SS"];
+const generateCaptchaCode = () => {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ023456789";
+  return Array.from(
+    { length: 6 },
+    () => chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
+};
 
 function CaptchaImage({ code }) {
   const lines = [
@@ -85,7 +91,7 @@ export default function CheckVisa({ records: initialRecords }) {
   const [reference, setReference] = useState("");
   const [dob, setDob] = useState("");
   const [captcha, setCaptcha] = useState("");
-  const [code, setCode] = useState("D3M0");
+  const [code, setCode] = useState(generateCaptchaCode);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(false);
@@ -185,11 +191,7 @@ export default function CheckVisa({ records: initialRecords }) {
   }
 
   function refreshCaptcha() {
-    const availableCodes = CAPTCHA_CODES.filter((item) => item !== code);
-    const nextCode =
-      availableCodes[Math.floor(Math.random() * availableCodes.length)];
-
-    setCode(nextCode);
+    setCode(generateCaptchaCode());
     setCaptcha("");
     setError("");
   }
