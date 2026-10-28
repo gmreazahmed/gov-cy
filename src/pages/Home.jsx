@@ -228,7 +228,7 @@ export default function GovCyPortal() {
           <ul className="mt-8 grid gap-6 md:grid-cols-2 md:gap-x-16">
             <li>
               <a
-                href="/check-visa"
+                href="/check-visa-status"
                 className="group flex items-center gap-5 text-[18px] font-bold text-govcy-link visited:text-govcy-link-visited hover:underline"
               >
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-govcy-surface">

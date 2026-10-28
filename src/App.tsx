@@ -1,6 +1,11 @@
 
-import { useState } from "react";
-import type { Dispatch, SetStateAction, ComponentType } from "react";
+import { useEffect, useState } from "react";
+import type {
+  Dispatch,
+  SetStateAction,
+  ComponentType,
+} from "react";
+
 import {
   Routes,
   Route,
@@ -82,7 +87,6 @@ function ProtectedAdmin({
     );
   }
 
-  // AdminPanel.jsx currently receives props from this TSX file.
   const TypedAdminPanel =
     AdminPanel as ComponentType<ProtectedAdminProps>;
 
@@ -98,12 +102,32 @@ export default function App() {
   const [records, setRecords] =
     useState<VisaRecord[]>(initialRecords);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+
+    if (path === "/") {
+      document.title = "Home";
+    } else if (path === "/check-visa-status") {
+      document.title = "Check Visa Status — gov.cy";
+    } else if (path === "/admin-login") {
+      document.title = "Admin Login";
+    } else if (path === "/admin") {
+      document.title = "Admin Panel";
+    } else if (/^\/result\/\d+$/.test(path)) {
+      document.title = "Visa Result";
+    } else {
+      document.title = "Visa Status";
+    }
+  }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
 
       <Route
-        path="/check-visa"
+        path="/check-visa-status"
         element={<CheckVisa records={records} />}
       />
 
