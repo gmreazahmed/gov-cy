@@ -9,6 +9,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 
+import "./VisaResult.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -208,8 +209,8 @@ export default function VisaResult({ records: initialRecords }) {
           <h1>Application Result</h1>
 
           <p>
-            This is a sample application result for interface testing only.
-            It is not an official visa decision.
+            This is a sample application result for interface testing only. It
+            is not an official visa decision.
           </p>
         </div>
       </section>
@@ -239,7 +240,7 @@ export default function VisaResult({ records: initialRecords }) {
               <button
                 className="btn btn-small"
                 type="button"
-                onClick={() => window.print()}
+                onClick={downloadDocument}
               >
                 <Printer size={14} />
                 Print
@@ -269,14 +270,8 @@ export default function VisaResult({ records: initialRecords }) {
               label="Application submitted"
               value={formatDate(record.submitted)}
             />
-            <Detail
-              label="Decision date"
-              value={formatDate(record.decision)}
-            />
-            <Detail
-              label="Visa issue date"
-              value={formatDate(record.issue)}
-            />
+            <Detail label="Decision date" value={formatDate(record.decision)} />
+            <Detail label="Visa issue date" value={formatDate(record.issue)} />
             <Detail
               label="Visa expiry date"
               value={formatDate(record.expiry)}
