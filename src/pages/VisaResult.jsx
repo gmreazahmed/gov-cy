@@ -173,11 +173,7 @@ export default function VisaResult({ records: initialRecords }) {
 
         <main className="result-container">
           <section className="result-card">
-            <h2>
-              {error
-                ? "Unable to load result"
-                : "Sample result not found"}
-            </h2>
+            <h2>{error ? "Unable to load result" : "Result not found"}</h2>
 
             <p>
               {error ||
@@ -185,16 +181,12 @@ export default function VisaResult({ records: initialRecords }) {
             </p>
 
             <div className="form-actions">
-              <button
-                className="btn"
-                type="button"
-                onClick={loadRecord}
-              >
+              <button className="btn" type="button" onClick={loadRecord}>
                 <RefreshCw size={15} />
                 Retry
               </button>
 
-              <Link to="/" className="btn">
+              <Link to="/check-visa-status" className="btn">
                 <ArrowLeft size={15} />
                 Check another application
               </Link>
@@ -256,7 +248,7 @@ export default function VisaResult({ records: initialRecords }) {
               <button
                 className="btn btn-small"
                 type="button"
-                onClick={printResult}
+                onClick={downloadDocument}
               >
                 <Printer size={14} />
                 Print
