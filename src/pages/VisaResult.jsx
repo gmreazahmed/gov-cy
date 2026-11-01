@@ -1,3 +1,4 @@
+
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -5,7 +6,6 @@ import {
   Printer,
   CheckCircle2,
   ArrowLeft,
-  ShieldCheck,
   RefreshCw,
 } from "lucide-react";
 
@@ -90,30 +90,38 @@ export default function VisaResult({ records: initialRecords }) {
   function downloadDocument() {
     if (!record) return;
 
-    // Use the PDF path returned by the PHP API.
     if (record.pdfPath) {
-      const pdfUrl = new URL(
-        String(record.pdfPath).replace(/^\/+/, ""),
-        `${API_BASE.replace(/\/+$/, "")}/`
-      );
+      try {
+        const apiUrl = new URL(API_BASE, window.location.origin);
 
-      if (pdfUrl.origin !== new URL(API_BASE).origin) {
-        setError("The document URL is not valid.");
-        return;
+        const pdfUrl = new URL(
+          String(record.pdfPath).replace(/^\/+/, ""),
+          `${apiUrl.origin}/`
+        );
+
+        if (pdfUrl.origin !== apiUrl.origin) {
+          setError("The document URL is not valid.");
+          return;
+        }
+
+        const link = document.createElement("a");
+
+        link.href = pdfUrl.href;
+        link.download = record.pdfName || "document.pdf";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } catch {
+        setError("Could not open the document.");
       }
 
-      const link = document.createElement("a");
-      link.href = pdfUrl.href;
-      link.download = record.pdfName || "practice-document.pdf";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
       return;
     }
 
-    // Generate a clearly labelled text file when no PDF exists.
+    // Fallback when no PDF is attached.
     const content = [
       `Applicant: ${record.fullName || ""}`,
       `Reference: ${record.reference || ""}`,
@@ -130,6 +138,7 @@ export default function VisaResult({ records: initialRecords }) {
 
     link.href = url;
     link.download = `${record.reference || "sample"}-cy.txt`;
+
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -137,15 +146,21 @@ export default function VisaResult({ records: initialRecords }) {
     URL.revokeObjectURL(url);
   }
 
+  function printResult() {
+    window.print();
+  }
+
   if (loading) {
     return (
       <>
         <Header />
+
         <main className="result-container">
           <section className="result-card">
             <p>Loading sample result...</p>
           </section>
         </main>
+
         <Footer />
       </>
     );
@@ -159,7 +174,9 @@ export default function VisaResult({ records: initialRecords }) {
         <main className="result-container">
           <section className="result-card">
             <h2>
-              {error ? "Unable to load result" : "Sample result not found"}
+              {error
+                ? "Unable to load result"
+                : "Sample result not found"}
             </h2>
 
             <p>
@@ -168,7 +185,11 @@ export default function VisaResult({ records: initialRecords }) {
             </p>
 
             <div className="form-actions">
-              <button className="btn" type="button" onClick={loadRecord}>
+              <button
+                className="btn"
+                type="button"
+                onClick={loadRecord}
+              >
                 <RefreshCw size={15} />
                 Retry
               </button>
@@ -186,7 +207,9 @@ export default function VisaResult({ records: initialRecords }) {
     );
   }
 
-  const status = String(record.status || "pending").toLowerCase();
+  const status = String(
+    record.status || "pending"
+  ).toLowerCase();
 
   return (
     <>
@@ -207,6 +230,9 @@ export default function VisaResult({ records: initialRecords }) {
       </section>
 
       <main className="result-container">
+
+        {/* Applicant Details */}
+
         <section className="result-card">
           <div className="result-card-header">
             <div className="result-heading">
@@ -225,13 +251,15 @@ export default function VisaResult({ records: initialRecords }) {
                 onClick={downloadDocument}
               >
                 <Download size={14} />
-                {record.pdfPath ? "Download document" : "Download file"}
+                {record.pdfPath
+                  ? "Download document"
+                  : "Download file"}
               </button>
 
               <button
                 className="btn btn-small"
                 type="button"
-                onClick={downloadDocument}
+                onClick={printResult}
               >
                 <Printer size={14} />
                 Print
@@ -240,29 +268,79 @@ export default function VisaResult({ records: initialRecords }) {
           </div>
 
           <div className="detail-list watermark">
-            <Detail label="Full name" value={record.fullName} />
-            <Detail label="Passport number" value={record.passport} />
-            <Detail label="Date of birth" value={formatDate(record.dob)} />
-            <Detail label="Nationality" value={record.nationality} />
-            <Detail label="Application reference" value={record.reference} />
-            <Detail label="Document number" value={record.visaNumber} />
+            <Detail
+              label="Full name"
+              value={record.fullName}
+            />
+
+            <Detail
+              label="Passport number"
+              value={record.passport}
+            />
+
+            <Detail
+              label="Date of birth"
+              value={formatDate(record.dob)}
+            />
+
+            <Detail
+              label="Nationality"
+              value={record.nationality}
+            />
+
+            <Detail
+              label="Application reference"
+              value={record.reference}
+            />
+
+            <Detail
+              label="Document number"
+              value={record.visaNumber}
+            />
           </div>
         </section>
+
+        {/* Visa Details */}
 
         <section className="result-card">
           <h2>Visa details</h2>
 
           <div className="detail-list watermark">
-            <Detail label="Visa type" value={record.visaType} />
-            <Detail label="Number of entries" value={record.entries} />
-            <Detail label="Duration of stay" value={record.duration} />
-            <Detail label="Port of entry" value={record.port} />
+            <Detail
+              label="Visa type"
+              value={record.visaType}
+            />
+
+            <Detail
+              label="Number of entries"
+              value={record.entries}
+            />
+
+            <Detail
+              label="Duration of stay"
+              value={record.duration}
+            />
+
+            <Detail
+              label="Port of entry"
+              value={record.port}
+            />
+
             <Detail
               label="Application submitted"
               value={formatDate(record.submitted)}
             />
-            <Detail label="Decision date" value={formatDate(record.decision)} />
-            <Detail label="Visa issue date" value={formatDate(record.issue)} />
+
+            <Detail
+              label="Decision date"
+              value={formatDate(record.decision)}
+            />
+
+            <Detail
+              label="Visa issue date"
+              value={formatDate(record.issue)}
+            />
+
             <Detail
               label="Visa expiry date"
               value={formatDate(record.expiry)}
@@ -270,21 +348,7 @@ export default function VisaResult({ records: initialRecords }) {
           </div>
         </section>
 
-        {record.pdfPath && (
-          <section className="result-card">
-            <h2>Attached sample document</h2>
-            <p>{record.pdfName || "PDF document"}</p>
-
-            <button
-              className="btn btn-small"
-              type="button"
-              onClick={downloadDocument}
-            >
-              <Download size={14} />
-              Download document
-            </button>
-          </section>
-        )}
+        {/* Result Actions */}
 
         <div className="result-actions">
           <Link to="/" className="btn">
@@ -297,7 +361,6 @@ export default function VisaResult({ records: initialRecords }) {
           </Link>
         </div>
 
-        
       </main>
 
       <Footer />
