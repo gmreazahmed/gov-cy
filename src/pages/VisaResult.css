@@ -3,11 +3,36 @@
 ================================ */
 
 .result-container {
-    width: 100%;
-    max-width: 1280px;
+    width: 70%;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 36px 24px 56px;
     color: #1f2937;
+    box-sizing: border-box;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+    .result-container {
+        width: 85%;
+        padding: 28px 20px 40px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .result-container {
+        width: 94%;
+        padding: 20px 12px 32px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 380px) {
+    .result-container {
+        width: 96%;
+        padding: 16px 8px 28px;
+    }
 }
 
 .result-container .result-card {
