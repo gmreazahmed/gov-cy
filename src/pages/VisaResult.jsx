@@ -72,7 +72,7 @@ export default function VisaResult({ records: initialRecords }) {
       setRecords(result.records);
     } catch {
       setError(
-        "Unable to connect to the demo API. Please try again."
+        "Unable to connect to the API. Please try again."
       );
     } finally {
       setLoading(false);
@@ -113,16 +113,12 @@ export default function VisaResult({ records: initialRecords }) {
       return;
     }
 
-    // Generate a clearly labelled text demo file when no PDF exists.
+    // Generate a clearly labelled text file when no PDF exists.
     const content = [
-      "INDEPENDENT PRACTICE DEMO",
-      "NOT AN OFFICIAL DOCUMENT",
-      "",
       `Applicant: ${record.fullName || ""}`,
       `Reference: ${record.reference || ""}`,
       `Status: ${record.status || ""}`,
       "",
-      "This sample file is for interface testing only.",
     ].join("\n");
 
     const blob = new Blob([content], {
@@ -133,7 +129,7 @@ export default function VisaResult({ records: initialRecords }) {
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = `${record.reference || "sample"}-demo.txt`;
+    link.download = `${record.reference || "sample"}-cy.txt`;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -207,11 +203,6 @@ export default function VisaResult({ records: initialRecords }) {
           </div>
 
           <h1>Application Result</h1>
-
-          <p>
-            This is a sample application result for interface testing only. It
-            is not an official visa decision.
-          </p>
         </div>
       </section>
 
@@ -234,7 +225,7 @@ export default function VisaResult({ records: initialRecords }) {
                 onClick={downloadDocument}
               >
                 <Download size={14} />
-                {record.pdfPath ? "Download document" : "Download demo file"}
+                {record.pdfPath ? "Download document" : "Download file"}
               </button>
 
               <button
@@ -254,7 +245,7 @@ export default function VisaResult({ records: initialRecords }) {
             <Detail label="Date of birth" value={formatDate(record.dob)} />
             <Detail label="Nationality" value={record.nationality} />
             <Detail label="Application reference" value={record.reference} />
-            <Detail label="Demo document number" value={record.visaNumber} />
+            <Detail label="Document number" value={record.visaNumber} />
           </div>
         </section>
 
@@ -302,28 +293,11 @@ export default function VisaResult({ records: initialRecords }) {
           </Link>
 
           <Link to="/" className="text-link">
-            Back to demo home
+            Back to home
           </Link>
         </div>
 
-        <div className="notice">
-          <ShieldCheck size={20} />
-
-          <div>
-            <strong>Important demo notice</strong>
-
-            <p>
-              This page displays fictional practice data. It is not an official
-              document and cannot be used for travel or identity verification.
-            </p>
-          </div>
-        </div>
-
-        <section className="contact-card">
-          <h3>Demo support</h3>
-          <p>Independent frontend practice project</p>
-          <p>Sample data only</p>
-        </section>
+        
       </main>
 
       <Footer />

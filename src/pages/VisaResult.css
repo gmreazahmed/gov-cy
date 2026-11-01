@@ -147,27 +147,6 @@
     overflow-wrap: anywhere;
 }
 
-/* Demo Watermark */
-
-.result-container .watermark {
-    position: relative;
-    isolation: isolate;
-}
-
-.result-container .watermark::before {
-    content: "DEMO";
-    position: absolute;
-    z-index: -1;
-    top: 50%;
-    left: 50%;
-    color: rgb(49 87 164 / 4%);
-    font-size: clamp(48px, 9vw, 100px);
-    font-weight: 800;
-    letter-spacing: 8px;
-    white-space: nowrap;
-    transform: translate(-50%, -50%) rotate(-20deg);
-    pointer-events: none;
-}
 
 /* Buttons — Result Page Only */
 
@@ -246,66 +225,6 @@
     color: #24437f;
 }
 
-/* Demo Notice */
-
-.result-container .notice {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 24px;
-    padding: 20px;
-    border: 1px solid #bfdbfe;
-    border-left: 4px solid #3157a4;
-    border-radius: 6px;
-    background: #eff6ff;
-    color: #1e3a8a;
-}
-
-.result-container .notice>svg {
-    flex-shrink: 0;
-    margin-top: 2px;
-    color: #3157a4;
-}
-
-.result-container .notice strong {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 15px;
-    line-height: 1.5;
-    font-weight: 700;
-}
-
-.result-container .notice p {
-    margin: 0;
-    color: #334155;
-    font-size: 14px;
-    line-height: 1.65;
-}
-
-/* Demo Support */
-
-.result-container .contact-card {
-    margin-bottom: 24px;
-    padding: 22px 24px;
-    border: 1px solid #d8dee8;
-    border-radius: 8px;
-    background: #f8fafc;
-}
-
-.result-container .contact-card h3 {
-    margin: 0 0 10px;
-    color: #1f2937;
-    font-size: 18px;
-    line-height: 1.4;
-    font-weight: 700;
-}
-
-.result-container .contact-card p {
-    margin-top: 5px;
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.6;
-}
 
 /* Loading / Error Buttons */
 
