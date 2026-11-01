@@ -230,7 +230,6 @@ export default function VisaResult({ records: initialRecords }) {
       </section>
 
       <main className="result-container">
-
         {/* Applicant Details */}
 
         <section className="result-card">
@@ -251,9 +250,7 @@ export default function VisaResult({ records: initialRecords }) {
                 onClick={downloadDocument}
               >
                 <Download size={14} />
-                {record.pdfPath
-                  ? "Download document"
-                  : "Download file"}
+                {record.pdfPath ? "Download document" : "Download file"}
               </button>
 
               <button
@@ -268,35 +265,17 @@ export default function VisaResult({ records: initialRecords }) {
           </div>
 
           <div className="detail-list watermark">
-            <Detail
-              label="Full name"
-              value={record.fullName}
-            />
+            <Detail label="Full name" value={record.fullName} />
 
-            <Detail
-              label="Passport number"
-              value={record.passport}
-            />
+            <Detail label="Passport number" value={record.passport} />
 
-            <Detail
-              label="Date of birth"
-              value={formatDate(record.dob)}
-            />
+            <Detail label="Date of birth" value={formatDate(record.dob)} />
 
-            <Detail
-              label="Nationality"
-              value={record.nationality}
-            />
+            <Detail label="Nationality" value={record.nationality} />
 
-            <Detail
-              label="Application reference"
-              value={record.reference}
-            />
+            <Detail label="Application reference" value={record.reference} />
 
-            <Detail
-              label="Document number"
-              value={record.visaNumber}
-            />
+            <Detail label="Document number" value={record.visaNumber} />
           </div>
         </section>
 
@@ -306,40 +285,22 @@ export default function VisaResult({ records: initialRecords }) {
           <h2>Visa details</h2>
 
           <div className="detail-list watermark">
-            <Detail
-              label="Visa type"
-              value={record.visaType}
-            />
+            <Detail label="Visa type" value={record.visaType} />
 
-            <Detail
-              label="Number of entries"
-              value={record.entries}
-            />
+            <Detail label="Number of entries" value={record.entries} />
 
-            <Detail
-              label="Duration of stay"
-              value={record.duration}
-            />
+            <Detail label="Duration of stay" value={record.duration} />
 
-            <Detail
-              label="Port of entry"
-              value={record.port}
-            />
+            <Detail label="Port of entry" value={record.port} />
 
             <Detail
               label="Application submitted"
               value={formatDate(record.submitted)}
             />
 
-            <Detail
-              label="Decision date"
-              value={formatDate(record.decision)}
-            />
+            <Detail label="Decision date" value={formatDate(record.decision)} />
 
-            <Detail
-              label="Visa issue date"
-              value={formatDate(record.issue)}
-            />
+            <Detail label="Visa issue date" value={formatDate(record.issue)} />
 
             <Detail
               label="Visa expiry date"
@@ -351,7 +312,7 @@ export default function VisaResult({ records: initialRecords }) {
         {/* Result Actions */}
 
         <div className="result-actions">
-          <Link to="/" className="btn">
+          <Link to="/check-visa-status" className="btn">
             <ArrowLeft size={15} />
             Check another application
           </Link>
@@ -360,7 +321,6 @@ export default function VisaResult({ records: initialRecords }) {
             Back to home
           </Link>
         </div>
-
       </main>
 
       <Footer />
